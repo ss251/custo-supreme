@@ -277,7 +277,7 @@ function ContactInfo({ icon, title, content }) {
   );
 }
 
-function HomeIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
+function HomeIcon(props) {
   return (
     <svg
       {...props}
@@ -298,7 +298,7 @@ function HomeIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
 }
 
 function BuildingIcon(
-  props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>
+  props
 ) {
   return (
     <svg
@@ -329,7 +329,7 @@ function BuildingIcon(
 }
 
 function AppWindowIcon(
-  props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>
+  props
 ) {
   return (
     <svg
@@ -352,7 +352,7 @@ function AppWindowIcon(
   );
 }
 
-function LocateIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
+function LocateIcon(props) {
   return (
     <svg
       {...props}
@@ -375,7 +375,7 @@ function LocateIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
   );
 }
 
-function PhoneIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
+function PhoneIcon(props) {
   return (
     <svg
       {...props}
@@ -394,7 +394,7 @@ function PhoneIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
   );
 }
 
-function MailIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
+function MailIcon(props) {
   return (
     <svg
       {...props}
