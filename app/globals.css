@@ -24,6 +24,42 @@
     --input: 214 32% 91%;
     --ring: 201 96% 32%;
     --radius: 0.5rem;
+
+    /* New color variations */
+    --primary-light: 201 96% 42%;
+    --primary-dark: 201 96% 22%;
+    --secondary-light: 215 27% 26%;
+    --secondary-dark: 215 27% 6%;
+
+    /* Semantic colors */
+    --success: 142 76% 36%;
+    --success-foreground: 0 0% 100%;
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
+    --info: 201 96% 32%;
+    --info-foreground: 0 0% 100%;
+  }
+
+  .dark {
+    --background: 222 47% 11%;
+    --foreground: 0 0% 100%;
+    --card: 215 27% 16%;
+    --card-foreground: 0 0% 100%;
+    --popover: 222 47% 11%;
+    --popover-foreground: 0 0% 100%;
+    --primary: 201 96% 32%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 215 27% 16%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 215 27% 16%;
+    --muted-foreground: 215 16% 56%;
+    --accent: 201 96% 32%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 215 27% 26%;
+    --input: 215 27% 26%;
+    --ring: 201 96% 32%;
   }
 }
 
