@@ -8,6 +8,7 @@ import { TestimonialsSection } from "./TestimonialsSection";
 import { FAQSection } from "./FAQSection";
 import { ContactSection } from "./ContactSection";
 import { Footer } from "./Footer";
+import { QuoteSection } from "./QuoteSection";
 import { Chatbot } from "./Chatbot";
 
 export function Landing() {
@@ -18,6 +19,7 @@ export function Landing() {
         <HeroSection />
         <ServicesSection />
         <AboutSection />
+        <QuoteSection />
         <ProductGuarantee />
         <InspectionsSection />
         <TestimonialsSection />
