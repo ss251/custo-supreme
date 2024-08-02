@@ -4,7 +4,8 @@ import { useState, useRef, useEffect } from "react";
 import YouTube from "react-youtube";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
-import { Volume2, VolumeX, Play, Pause, CheckCircle } from "lucide-react";
+import { Volume2, VolumeX, Play, Pause, CheckCircle, X } from "lucide-react";
+import { InlineWidget } from "react-calendly";
 
 export function HeroSection() {
   const services = [
@@ -19,6 +20,7 @@ export function HeroSection() {
   const [isMuted, setIsMuted] = useState(true);
   const playerRef = useRef<any>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const [isCalendlyOpen, setIsCalendlyOpen] = useState(false);
 
   // Set the video source and type here
   const [videoSource, setVideoSource] = useState({
@@ -218,9 +220,9 @@ export function HeroSection() {
               size="lg"
               variant="outline"
               className="bg-white/10 text-white border-white hover:bg-white/20 text-lg px-8 py-3 w-full sm:w-auto font-semibold"
-              onClick={() => scrollToSection("services")}
+              onClick={() => setIsCalendlyOpen(true)}
             >
-              Our Services
+              Schedule a Call
             </Button>
           </motion.div>
         </div>
@@ -248,6 +250,39 @@ export function HeroSection() {
             {isMuted ? <VolumeX size={24} /> : <Volume2 size={24} />}
           </button>
         </motion.div>
+      </AnimatePresence>
+
+      {/* Calendly Inline Widget Modal */}
+      <AnimatePresence>
+        {isCalendlyOpen && (
+          <motion.div
+            className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div
+              className="bg-white p-4 rounded-lg w-full max-w-4xl h-[80vh] m-4"
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+            >
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-2xl font-bold">Book a Cleaning Service</h2>
+                <button
+                  onClick={() => setIsCalendlyOpen(false)}
+                  className="text-gray-500 hover:text-gray-700"
+                >
+                  <X size={24} />
+                </button>
+              </div>
+              <InlineWidget
+                url="https://calendly.com/admin-custosupreme/30min"
+                styles={{ height: "calc(100% - 60px)" }}
+              />
+            </motion.div>
+          </motion.div>
+        )}
       </AnimatePresence>
     </section>
   );
