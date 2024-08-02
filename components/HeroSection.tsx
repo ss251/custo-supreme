@@ -23,7 +23,7 @@ export function HeroSection() {
   // Set the video source and type here
   const [videoSource, setVideoSource] = useState({
     // type: "youtube", // 'youtube' or 'local'
-    // source: "Rt7iUhijySY", // YouTube video ID or local video 
+    // source: "Rt7iUhijySY", // YouTube video ID or local video
     type: "local",
     source: "/landing-video.mp4",
   });
@@ -58,7 +58,9 @@ export function HeroSection() {
         playerRef.current?.playVideo();
       }
     } else {
-      const localVideoElement = document.getElementById("local-video") as HTMLVideoElement;
+      const localVideoElement = document.getElementById(
+        "local-video"
+      ) as HTMLVideoElement;
       if (localVideoElement) {
         if (isPlaying) {
           localVideoElement.pause();
@@ -78,7 +80,9 @@ export function HeroSection() {
         playerRef.current?.mute();
       }
     } else {
-      const localVideoElement = document.getElementById("local-video") as HTMLVideoElement;
+      const localVideoElement = document.getElementById(
+        "local-video"
+      ) as HTMLVideoElement;
       if (localVideoElement) {
         localVideoElement.muted = isMuted;
       }
@@ -102,7 +106,9 @@ export function HeroSection() {
       if (videoSource.type === "youtube" && playerRef.current) {
         playerRef.current.setSize(width, height);
       } else {
-        const localVideoElement = document.getElementById("local-video") as HTMLVideoElement;
+        const localVideoElement = document.getElementById(
+          "local-video"
+        ) as HTMLVideoElement;
         if (localVideoElement) {
           localVideoElement.style.width = `${width}px`;
           localVideoElement.style.height = `${height}px`;
@@ -115,6 +121,13 @@ export function HeroSection() {
     window.addEventListener("resize", updateVideoSize);
     return () => window.removeEventListener("resize", updateVideoSize);
   }, [videoSource]);
+
+  const scrollToSection = (sectionId: string) => {
+    const section = document.getElementById(sectionId);
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
+    }
+  };
 
   return (
     <section
@@ -156,7 +169,7 @@ export function HeroSection() {
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.8 }}
-            style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.7)' }}
+            style={{ textShadow: "2px 2px 4px rgba(0,0,0,0.7)" }}
           >
             Expert Commercial Cleaning Services in Chattanooga
           </motion.h1>
@@ -165,9 +178,10 @@ export function HeroSection() {
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.4, duration: 0.8 }}
-            style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.7)' }}
+            style={{ textShadow: "1px 1px 2px rgba(0,0,0,0.7)" }}
           >
-            Elevate your business environment with our 8+ years of cleaning expertise
+            Elevate your business environment with our 8+ years of cleaning
+            expertise
           </motion.p>
           <motion.div
             className="flex flex-wrap justify-center gap-4 mb-8"
@@ -181,7 +195,9 @@ export function HeroSection() {
                 className="flex items-center bg-black/30 backdrop-blur-sm rounded-full px-4 py-2"
               >
                 <CheckCircle className="text-primary mr-2" size={16} />
-                <span className="text-white text-sm font-medium">{service}</span>
+                <span className="text-white text-sm font-medium">
+                  {service}
+                </span>
               </div>
             ))}
           </motion.div>
@@ -194,6 +210,7 @@ export function HeroSection() {
             <Button
               size="lg"
               className="bg-primary text-white hover:bg-primary/90 text-lg px-8 py-3 w-full sm:w-auto font-semibold"
+              onClick={() => scrollToSection("quote")}
             >
               Get a Free Quote
             </Button>
@@ -201,6 +218,7 @@ export function HeroSection() {
               size="lg"
               variant="outline"
               className="bg-white/10 text-white border-white hover:bg-white/20 text-lg px-8 py-3 w-full sm:w-auto font-semibold"
+              onClick={() => scrollToSection("services")}
             >
               Our Services
             </Button>
