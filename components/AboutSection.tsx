@@ -132,8 +132,8 @@ export function AboutSection() {
               <div className="flex items-center mb-4">
                 {!founderImageLoaded && <FounderImageSkeleton />}
                 <Image
-                  src="/haven-nelson.jpg"
-                  alt="Haven Nelson - Founder"
+                  src="/haven-charquette.jpg"
+                  alt="Haven Nelson and Charquette Nelson - CEO and Founder"
                   width={80}
                   height={80}
                   className={`rounded-full mr-4 ${founderImageLoaded ? '' : 'hidden'}`}
@@ -141,12 +141,26 @@ export function AboutSection() {
                   onError={() => setFounderImageLoaded(true)} // Show image even if it fails to load
                 />
                 <div>
-                  <h3 className="text-xl font-semibold">Haven Nelson</h3>
+                  <h3 className="text-xl font-semibold">Charquette Nelson and Haven Nelson</h3>
                   <p className="text-gray-600">Founder & CEO</p>
                 </div>
               </div>
-              <p className="text-gray-600 italic">
-                &quot;Our mission is to provide unparalleled cleaning services that not only meet but exceed our clients&apos; expectations. We&apos;re committed to creating healthier, more productive spaces for businesses across Chattanooga.&quot;
+              <p className="text-gray-600 italic mb-4">
+                &quot;Our mission is to provide unparalleled cleaning services
+                that not only meet but exceed our clients&apos; expectations.
+                We&apos;re committed to creating healthier, more productive
+                spaces for businesses across Chattanooga.&quot;
+              </p>
+              <p className="text-gray-600">
+                Haven and Charquette Nelson, the dynamic duo behind Custo
+                Supreme, bring a perfect blend of vision and execution to our
+                company. As CEO and Founder respectively, they share a passion
+                for revolutionizing the cleaning industry through innovative
+                solutions and unparalleled customer service. Their combined
+                expertise in business management and industry knowledge drives
+                Custo Supreme&apos;s commitment to excellence, ensuring that every
+                client receives nothing short of the best in professional
+                cleaning services.
               </p>
             </div>
           </div>
