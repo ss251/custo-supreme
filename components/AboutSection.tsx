@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
-import { CheckCircle, Award, Shield, ChevronLeft, ChevronRight, Play, Pause, Volume2, VolumeX } from 'lucide-react';
+import { CheckCircle, ChevronLeft, ChevronRight, Play, Pause, Volume2, VolumeX } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 
 const features = [
@@ -18,14 +18,23 @@ const beforeAfterImages = [
   { before: "/about/before-1.jpg", after: "/about/after-1.jpg", description: "" },
   { before: "/about/before-2.jpg", after: "/about/after-2.jpg", description: "" },
   { before: "/about/before-3.jpg", after: "/about/after-3.jpg", description: "" },
-  { before: "/about/before-4.jpg", after: "/about/after-4.jpg", description: "" },
-  // { before: "/about/before-5.HEIC", after: "/about/after-5.HEIC", description: "" },
+  { before: "/about/before-4.JPG", after: "/about/after-4.JPG", description: "" },
 ];
+
+const ImageSkeleton = () => (
+  <div className="bg-gray-200 animate-pulse rounded-lg w-full h-full"></div>
+);
+
+const FounderImageSkeleton = () => (
+  <div className="bg-gray-200 animate-pulse rounded-full w-20 h-20"></div>
+);
 
 export function AboutSection() {
   const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(true);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [imagesLoaded, setImagesLoaded] = useState(Array(beforeAfterImages.length * 2).fill(false));
+  const [founderImageLoaded, setFounderImageLoaded] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -55,6 +64,14 @@ export function AboutSection() {
     setCurrentImageIndex((prevIndex) => (prevIndex - 1 + beforeAfterImages.length) % beforeAfterImages.length);
   };
 
+  const handleImageLoad = (index: number) => {
+    setImagesLoaded(prev => {
+      const newState = [...prev];
+      newState[index] = true;
+      return newState;
+    });
+  };
+
   useEffect(() => {
     const handleResize = () => {
       if (containerRef.current && videoRef.current) {
@@ -76,6 +93,16 @@ export function AboutSection() {
     handleResize();
 
     return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Fallback to show images after a delay
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setImagesLoaded(prev => prev.map(() => true));
+      setFounderImageLoaded(true);
+    }, 3000); // 3 seconds fallback
+
+    return () => clearTimeout(timer);
   }, []);
 
   return (
@@ -103,12 +130,15 @@ export function AboutSection() {
             </ul>
             <div className="bg-white p-6 rounded-lg shadow-md">
               <div className="flex items-center mb-4">
+                {!founderImageLoaded && <FounderImageSkeleton />}
                 <Image
                   src="/haven-nelson.jpg"
                   alt="Haven Nelson - Founder"
                   width={80}
                   height={80}
-                  className="rounded-full mr-4"
+                  className={`rounded-full mr-4 ${founderImageLoaded ? '' : 'hidden'}`}
+                  onLoad={() => setFounderImageLoaded(true)}
+                  onError={() => setFounderImageLoaded(true)} // Show image even if it fails to load
                 />
                 <div>
                   <h3 className="text-xl font-semibold">Haven Nelson</h3>
@@ -163,22 +193,30 @@ export function AboutSection() {
                   className="grid grid-cols-2 gap-4"
                 >
                   <div className="relative h-48 rounded-lg overflow-hidden">
+                    {!imagesLoaded[currentImageIndex * 2] && <ImageSkeleton />}
                     <Image
                       src={beforeAfterImages[currentImageIndex].before}
                       alt={`Before - ${beforeAfterImages[currentImageIndex].description}`}
                       layout="fill"
                       objectFit="cover"
+                      className={imagesLoaded[currentImageIndex * 2] ? '' : 'hidden'}
+                      onLoad={() => handleImageLoad(currentImageIndex * 2)}
+                      onError={() => handleImageLoad(currentImageIndex * 2)} // Show image even if it fails to load
                     />
                     <div className="absolute top-2 left-2 bg-black/50 text-white px-2 py-1 text-sm rounded">
                       Before
                     </div>
                   </div>
                   <div className="relative h-48 rounded-lg overflow-hidden">
+                    {!imagesLoaded[currentImageIndex * 2 + 1] && <ImageSkeleton />}
                     <Image
                       src={beforeAfterImages[currentImageIndex].after}
                       alt={`After - ${beforeAfterImages[currentImageIndex].description}`}
                       layout="fill"
                       objectFit="cover"
+                      className={imagesLoaded[currentImageIndex * 2 + 1] ? '' : 'hidden'}
+                      onLoad={() => handleImageLoad(currentImageIndex * 2 + 1)}
+                      onError={() => handleImageLoad(currentImageIndex * 2 + 1)} // Show image even if it fails to load
                     />
                     <div className="absolute top-2 right-2 bg-primary text-white px-2 py-1 text-sm rounded">
                       After
@@ -191,7 +229,7 @@ export function AboutSection() {
                 size="icon"
                 variant="ghost"
                 onClick={prevImage}
-                className="absolute top-1/2 -left-4 transform -translate-y-1/2 bg-white/75 hover:bg-white shadow-md"
+                className="absolute top-1/2 -left-4 transform -translate-y-1/2 bg-white/75 shadow-md"
               >
                 <ChevronLeft size={24} />
               </Button>
@@ -199,7 +237,7 @@ export function AboutSection() {
                 size="icon"
                 variant="ghost"
                 onClick={nextImage}
-                className="absolute top-1/2 -right-4 transform -translate-y-1/2 bg-white/75 hover:bg-white shadow-md"
+                className="absolute top-1/2 -right-4 transform -translate-y-1/2 bg-white/75 shadow-md"
               >
                 <ChevronRight size={24} />
               </Button>
