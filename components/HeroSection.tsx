@@ -137,7 +137,7 @@ export function HeroSection() {
             loop
             muted
             playsInline
-            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 min-w-full min-h-full w-auto h-auto"
+            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 min-w-full min-h-full w-auto h-auto object-cover"
             onLoadedMetadata={updateVideoSize}
           />
         )}
@@ -149,23 +149,25 @@ export function HeroSection() {
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
       >
-        <div className="max-w-5xl space-y-8 px-4">
+        {/* Adjusted the text container background to be more transparent */}
+        <div className="max-w-5xl space-y-8 px-4 py-8 bg-black/10 rounded-lg backdrop-blur-sm">
           <motion.h1
-            className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight text-white text-shadow-lg"
+            className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight text-white"
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.2, duration: 0.8 }}
+            style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.7)' }}
           >
             Expert Commercial Cleaning Services in Chattanooga
           </motion.h1>
           <motion.p
-            className="text-xl md:text-2xl text-white/90 text-shadow"
+            className="text-xl md:text-2xl text-white font-medium"
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.4, duration: 0.8 }}
+            style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.7)' }}
           >
-            Elevate your business environment with our 8+ years of cleaning
-            expertise
+            Elevate your business environment with our 8+ years of cleaning expertise
           </motion.p>
           <motion.div
             className="flex flex-wrap justify-center gap-4 mb-8"
@@ -176,10 +178,10 @@ export function HeroSection() {
             {services.map((service, index) => (
               <div
                 key={index}
-                className="flex items-center bg-white/20 backdrop-blur-sm rounded-full px-4 py-2"
+                className="flex items-center bg-black/30 backdrop-blur-sm rounded-full px-4 py-2"
               >
                 <CheckCircle className="text-primary mr-2" size={16} />
-                <span className="text-white text-sm">{service}</span>
+                <span className="text-white text-sm font-medium">{service}</span>
               </div>
             ))}
           </motion.div>
@@ -191,14 +193,14 @@ export function HeroSection() {
           >
             <Button
               size="lg"
-              className="bg-primary text-white hover:bg-primary/90 text-lg px-8 py-3 w-full sm:w-auto"
+              className="bg-primary text-white hover:bg-primary/90 text-lg px-8 py-3 w-full sm:w-auto font-semibold"
             >
               Get a Free Quote
             </Button>
             <Button
               size="lg"
               variant="outline"
-              className="bg-white/10 text-white border-white hover:bg-white/20 text-lg px-8 py-3 w-full sm:w-auto"
+              className="bg-white/10 text-white border-white hover:bg-white/20 text-lg px-8 py-3 w-full sm:w-auto font-semibold"
             >
               Our Services
             </Button>
