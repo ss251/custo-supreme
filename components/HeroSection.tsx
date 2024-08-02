@@ -20,6 +20,14 @@ export function HeroSection() {
   const playerRef = useRef<any>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
+  // Set the video source and type here
+  const [videoSource, setVideoSource] = useState({
+    // type: "youtube", // 'youtube' or 'local'
+    // source: "Rt7iUhijySY", // YouTube video ID or local video 
+    type: "local",
+    source: "/landing-video.mp4",
+  });
+
   const opts = {
     height: "100%",
     width: "100%",
@@ -30,7 +38,7 @@ export function HeroSection() {
       showinfo: 0,
       rel: 0,
       loop: 1,
-      playlist: "ODoLwsSyd4o",
+      playlist: videoSource.source, // This will work if the video type is youtube
       modestbranding: 1,
     },
   };
@@ -43,24 +51,42 @@ export function HeroSection() {
 
   const toggleVideo = () => {
     setIsPlaying(!isPlaying);
-    if (isPlaying) {
-      playerRef.current?.pauseVideo();
+    if (videoSource.type === "youtube") {
+      if (isPlaying) {
+        playerRef.current?.pauseVideo();
+      } else {
+        playerRef.current?.playVideo();
+      }
     } else {
-      playerRef.current?.playVideo();
+      const localVideoElement = document.getElementById("local-video") as HTMLVideoElement;
+      if (localVideoElement) {
+        if (isPlaying) {
+          localVideoElement.pause();
+        } else {
+          localVideoElement.play();
+        }
+      }
     }
   };
 
   const toggleMute = () => {
     setIsMuted(!isMuted);
-    if (isMuted) {
-      playerRef.current?.unMute();
+    if (videoSource.type === "youtube") {
+      if (isMuted) {
+        playerRef.current?.unMute();
+      } else {
+        playerRef.current?.mute();
+      }
     } else {
-      playerRef.current?.mute();
+      const localVideoElement = document.getElementById("local-video") as HTMLVideoElement;
+      if (localVideoElement) {
+        localVideoElement.muted = isMuted;
+      }
     }
   };
 
   const updateVideoSize = () => {
-    if (containerRef.current && playerRef.current) {
+    if (containerRef.current) {
       const containerWidth = containerRef.current.offsetWidth;
       const containerHeight = containerRef.current.offsetHeight;
       const aspectRatio = 16 / 9; // Assuming 16:9 aspect ratio for the video
@@ -73,14 +99,22 @@ export function HeroSection() {
         width = containerHeight * aspectRatio;
       }
 
-      playerRef.current.setSize(width, height);
+      if (videoSource.type === "youtube" && playerRef.current) {
+        playerRef.current.setSize(width, height);
+      } else {
+        const localVideoElement = document.getElementById("local-video") as HTMLVideoElement;
+        if (localVideoElement) {
+          localVideoElement.style.width = `${width}px`;
+          localVideoElement.style.height = `${height}px`;
+        }
+      }
     }
   };
 
   useEffect(() => {
     window.addEventListener("resize", updateVideoSize);
     return () => window.removeEventListener("resize", updateVideoSize);
-  }, []);
+  }, [videoSource]);
 
   return (
     <section
@@ -88,12 +122,25 @@ export function HeroSection() {
       className="relative h-screen w-full overflow-hidden"
     >
       <div className="absolute inset-0 z-0">
-        <YouTube
-          videoId="Rt7iUhijySY"
-          opts={opts}
-          onReady={onReady}
-          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 min-w-full min-h-full w-auto h-auto"
-        />
+        {videoSource.type === "youtube" ? (
+          <YouTube
+            videoId={videoSource.source}
+            opts={opts}
+            onReady={onReady}
+            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 min-w-full min-h-full w-auto h-auto"
+          />
+        ) : (
+          <video
+            id="local-video"
+            src={videoSource.source}
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 min-w-full min-h-full w-auto h-auto"
+            onLoadedMetadata={updateVideoSize}
+          />
+        )}
       </div>
       <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/50 z-10" />
       <motion.div
