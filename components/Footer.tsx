@@ -64,7 +64,7 @@ export function Footer() {
           </div>
 
           {/* Newsletter Signup */}
-          <div>
+          {/* <div>
             <h3 className="font-semibold text-lg mb-4">Subscribe to Our Newsletter</h3>
             <p className="text-sm mb-4">Stay updated with our latest offers and cleaning tips for Chattanooga businesses.</p>
             <form className="space-y-2">
@@ -79,7 +79,7 @@ export function Footer() {
                 Subscribe
               </Button>
             </form>
-          </div>
+          </div> */}
         </div>
 
         {/* Google Maps Embed */}
