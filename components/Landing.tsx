@@ -25,7 +25,7 @@ export function Landing() {
         <ContactSection />
       </main>
       <Footer />
-      <Chatbot />
+      {/* <Chatbot /> */}
     </div>
   );
 }
