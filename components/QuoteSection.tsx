@@ -5,7 +5,8 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { calculateQuote } from '@/lib/QuoteCalculator';
+import { calculateQuote, QuoteResult } from '@/lib/QuoteCalculator';
+// import { CalendarScheduler } from './CalendarScheduler';
 
 export interface QuoteFormData {
   propertyType: string;
@@ -13,11 +14,10 @@ export interface QuoteFormData {
   carpetedArea: string;
   hardSurfaceArea: string;
   trashCans: string;
-  highDustingArea: string;
   glassWindowsDoors: string;
   toiletsUrinals: string;
   dispensers: string;
-  hardSurfacesToWipe: string;
+  cleaningFrequency: string;
 }
 
 const propertyTypes = [
@@ -27,6 +27,14 @@ const propertyTypes = [
   { value: 'healthcare', label: 'Healthcare Facility' },
 ];
 
+const frequencyOptions = [
+  { value: '1', label: '1 time per week' },
+  { value: '2', label: '2 times per week' },
+  { value: '3', label: '3 times per week' },
+  { value: '4', label: '4 times per week' },
+  { value: '5', label: '5 times per week' },
+];
+
 export function QuoteSection() {
   const [formData, setFormData] = useState<QuoteFormData>({
     propertyType: '',
@@ -34,21 +42,21 @@ export function QuoteSection() {
     carpetedArea: '',
     hardSurfaceArea: '',
     trashCans: '',
-    highDustingArea: '',
     glassWindowsDoors: '',
     toiletsUrinals: '',
     dispensers: '',
-    hardSurfacesToWipe: '',
+    cleaningFrequency: '',
   });
-  const [quoteResult, setQuoteResult] = useState<number | null>(null);
+  const [quoteResult, setQuoteResult] = useState<QuoteResult | null>(null);
+  const [showScheduler, setShowScheduler] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData(prevData => ({ ...prevData, [name]: value }));
   };
 
-  const handleSelectChange = (value: string) => {
-    setFormData(prevData => ({ ...prevData, propertyType: value }));
+  const handleSelectChange = (name: string, value: string) => {
+    setFormData(prevData => ({ ...prevData, [name]: value }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -82,7 +90,7 @@ export function QuoteSection() {
                 <label htmlFor="propertyType" className="block text-sm font-medium text-foreground mb-1">
                   Type of Property
                 </label>
-                <Select onValueChange={handleSelectChange} value={formData.propertyType}>
+                <Select onValueChange={(value) => handleSelectChange('propertyType', value)}>
                   <SelectTrigger>
                     <SelectValue placeholder="Select a property type" />
                   </SelectTrigger>
@@ -128,7 +136,7 @@ export function QuoteSection() {
 
               <div>
                 <label htmlFor="hardSurfaceArea" className="block text-sm font-medium text-foreground mb-1">
-                  Hard-Surfaced Area to be Mopped (sq. ft.)
+                  Hard Surface Area Floors (sq. ft.)
                 </label>
                 <Input
                   type="number"
@@ -136,7 +144,7 @@ export function QuoteSection() {
                   name="hardSurfaceArea"
                   value={formData.hardSurfaceArea}
                   onChange={handleInputChange}
-                  placeholder="Enter hard-surfaced area"
+                  placeholder="Enter hard surface area"
                   required
                 />
               </div>
@@ -152,21 +160,6 @@ export function QuoteSection() {
                   value={formData.trashCans}
                   onChange={handleInputChange}
                   placeholder="Enter number of trash cans"
-                  required
-                />
-              </div>
-
-              <div>
-                <label htmlFor="highDustingArea" className="block text-sm font-medium text-foreground mb-1">
-                  High Dusting Area (sq. ft.)
-                </label>
-                <Input
-                  type="number"
-                  id="highDustingArea"
-                  name="highDustingArea"
-                  value={formData.highDustingArea}
-                  onChange={handleInputChange}
-                  placeholder="Enter high dusting area"
                   required
                 />
               </div>
@@ -217,18 +210,21 @@ export function QuoteSection() {
               </div>
 
               <div>
-                <label htmlFor="hardSurfacesToWipe" className="block text-sm font-medium text-foreground mb-1">
-                  Hard Surfaces to be Wiped (sq. ft.)
+                <label htmlFor="cleaningFrequency" className="block text-sm font-medium text-foreground mb-1">
+                  Cleaning Frequency
                 </label>
-                <Input
-                  type="number"
-                  id="hardSurfacesToWipe"
-                  name="hardSurfacesToWipe"
-                  value={formData.hardSurfacesToWipe}
-                  onChange={handleInputChange}
-                  placeholder="Enter hard surfaces to be wiped"
-                  required
-                />
+                <Select onValueChange={(value) => handleSelectChange('cleaningFrequency', value)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select cleaning frequency" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {frequencyOptions.map((option) => (
+                      <SelectItem key={option.value} value={option.value}>
+                        {option.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
 
               <Button type="submit" className="w-full">
@@ -243,20 +239,35 @@ export function QuoteSection() {
                 transition={{ duration: 0.5 }}
                 className="mt-8 p-4 bg-primary/10 rounded-md"
               >
-                <h3 className="text-lg font-semibold mb-2">Estimated Quote</h3>
-                <p className="text-2xl font-bold">${quoteResult.toFixed(2)}</p>
+                <h3 className="text-lg font-semibold mb-2">Estimated Monthly Quote</h3>
+                <p className="text-2xl font-bold">Total monthly: ${quoteResult.totalMonthly.toFixed(2)}</p>
+                <p className="text-lg">Based on {quoteResult.cleansPerWeek} clean(s) per week</p>
+                <p className="text-lg">Price per clean: ${quoteResult.perClean.toFixed(2)}</p>
+                <p className="text-lg">Total weekly: ${quoteResult.totalWeekly.toFixed(2)}</p>
                 <p className="text-sm text-muted-foreground mt-2">
-                  This quote is an estimate and is subject to change based on the final walkthrough. 
-                  Any additional requirements identified during the walkthrough will be incorporated 
-                  into the final official scope of work and may affect the final cost.
+                  This quote is an estimate for a month&apos;s worth of cleans based on your selected frequency. 
+                  It is subject to change based on the final walkthrough. Any additional requirements 
+                  identified during the walkthrough will be incorporated into the final official scope 
+                  of work and may affect the final cost.
                 </p>
-                <Button className="mt-4" onClick={() => alert("Walkthrough scheduling functionality to be implemented")}>
-                  Schedule Walkthrough
+                <Button className="mt-4" onClick={() => setShowScheduler(true)}>
+                  Schedule Consultation
                 </Button>
               </motion.div>
             )}
           </CardContent>
         </Card>
+{/* 
+        {showScheduler && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="mt-8"
+          >
+            <CalendarScheduler />
+          </motion.div>
+        )} */}
       </div>
     </section>
   );
