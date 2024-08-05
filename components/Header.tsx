@@ -115,7 +115,7 @@ export function Header() {
               className="hidden md:block bg-primary text-white hover:bg-primary/90"
               onClick={() => setIsCalendlyOpen(true)}
             >
-              Book Now
+              Book walk-through
             </Button>
             <button
               className="md:hidden text-gray-500 hover:text-gray-700"
