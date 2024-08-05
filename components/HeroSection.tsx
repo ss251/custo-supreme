@@ -214,7 +214,7 @@ export function HeroSection() {
               className="bg-primary text-white hover:bg-primary/90 text-lg px-8 py-3 w-full sm:w-auto font-semibold"
               onClick={() => scrollToSection("quote")}
             >
-              Get a Free Quote
+              Get Instant Estimate
             </Button>
             <Button
               size="lg"
