@@ -82,7 +82,7 @@ export function QuoteSection() {
           className="text-center mb-16"
         >
           <h2 className="text-3xl font-bold text-foreground mb-4">
-            Get a Quote
+            Routine Cleaning Contract
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Fill out the form below to receive an estimated quote for our
