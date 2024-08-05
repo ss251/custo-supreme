@@ -153,7 +153,7 @@ export function AboutSection() {
               </p>
               <p className="text-gray-600">
                 Haven and Charquette Nelson, the dynamic duo behind Custo
-                Supreme, bring a perfect blend of vision and execution to our
+                Supreme, bring a perfect blend of vision and execution to the
                 company. As CEO and Founder respectively, they share a passion
                 for revolutionizing the cleaning industry through innovative
                 solutions and unparalleled customer service. Their combined
