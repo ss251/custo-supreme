@@ -14,7 +14,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     "name": "CustoSupreme",
-    "description": "Professional commercial cleaning services in Chattanooga",
+    "description": "Professional commercial cleaning services in Chattanooga, TN",
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "123 Main Street",
