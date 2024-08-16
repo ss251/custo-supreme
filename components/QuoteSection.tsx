@@ -14,6 +14,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { calculateQuote, QuoteResult } from "@/lib/QuoteCalculator";
 import { InlineWidget } from "react-calendly";
 import { X } from "lucide-react";
+import CustomCalendar, { BookingDetails } from "./CustomCalendar";
+import { toast } from 'react-hot-toast';
 
 export interface QuoteFormData {
   propertyType: string;
@@ -70,6 +72,12 @@ export function QuoteSection() {
     e.preventDefault();
     const calculatedQuote = calculateQuote(formData);
     setQuoteResult(calculatedQuote);
+  };
+
+  const handleBookingConfirmed = (bookingDetails: BookingDetails) => {
+    console.log('Booking confirmed:', bookingDetails);
+    toast.success('Appointment booked successfully!');
+    // You can add additional logic here, such as updating the UI or component state
   };
 
   return (
@@ -325,13 +333,13 @@ export function QuoteSection() {
               exit={{ opacity: 0 }}
             >
               <motion.div
-                className="bg-white p-4 rounded-lg w-full max-w-4xl h-[80vh] m-4"
+                className="bg-white p-4 rounded-lg w-full max-w-[310px] m-4"
                 initial={{ scale: 0.9, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.9, opacity: 0 }}
               >
                 <div className="flex justify-between items-center mb-4">
-                  <h2 className="text-2xl font-bold">Book a Cleaning Service</h2>
+                  <h2 className="text-2xl font-bold">Schedule Walk-through for Precise Estimate</h2>
                   <button
                     onClick={() => setIsCalendlyOpen(false)}
                     className="text-gray-500 hover:text-gray-700"
@@ -339,10 +347,11 @@ export function QuoteSection() {
                     <X size={24} />
                   </button>
                 </div>
-                <InlineWidget
+                {/* <InlineWidget
                   url="https://calendly.com/admin-custosupreme/30min"
                   styles={{ height: "calc(100% - 60px)" }}
-                />
+                /> */}
+                <CustomCalendar onBookingConfirmed={handleBookingConfirmed} />
               </motion.div>
             </motion.div>
           )}
