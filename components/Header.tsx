@@ -49,12 +49,20 @@ export function Header() {
   };
 
   const scrollToSection = (sectionId: string) => {
-    const section = document.querySelector(sectionId);
-    if (section) {
-      section.scrollIntoView({ behavior: 'smooth' });
-    }
     setIsMenuOpen(false);
     setActiveDropdown(null);
+    
+    setTimeout(() => {
+      const section = document.querySelector(sectionId);
+      if (section) {
+        const headerHeight = 80; // Adjust this value based on your header height
+        const sectionTop = section.getBoundingClientRect().top + window.pageYOffset - headerHeight;
+        window.scrollTo({
+          top: sectionTop,
+          behavior: 'smooth'
+        });
+      }
+    }, 300); // 300ms delay to allow the menu closing animation to complete
   };
 
   const handleBookingConfirmed = (bookingDetails: BookingDetails) => {
