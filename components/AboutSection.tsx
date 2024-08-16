@@ -141,8 +141,8 @@ export function AboutSection() {
                   onError={() => setFounderImageLoaded(true)} // Show image even if it fails to load
                 />
                 <div>
-                  <h3 className="text-xl font-semibold">Charquette Nelson and Haven Nelson</h3>
-                  <p className="text-gray-600">Founder & CEO</p>
+                  <h3 className="text-xl font-semibold">Haven Nelson and Charquette Nelson</h3>
+                  <p className="text-gray-600">CEO & Founder</p>
                 </div>
               </div>
               <p className="text-gray-600 italic mb-4">
