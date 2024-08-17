@@ -90,7 +90,7 @@ export function QuoteSection() {
           className="text-center mb-16"
         >
           <h2 className="text-3xl font-bold text-foreground mb-4">
-            Get a Quote
+            Routine Cleaning Contract
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Fill out the form below to receive an estimated quote for our
@@ -316,7 +316,7 @@ export function QuoteSection() {
                   cost.
                 </p>
                 <Button className="mt-4" onClick={() => setIsCalendlyOpen(true)}>
-                  Schedule a Call
+                  Book walk-through
                 </Button>
               </motion.div>
             )}
@@ -339,7 +339,7 @@ export function QuoteSection() {
                 exit={{ scale: 0.9, opacity: 0 }}
               >
                 <div className="flex justify-between items-center mb-4">
-                  <h2 className="text-2xl font-bold">Schedule Walk-through for Precise Estimate</h2>
+                  <h2 className="text-2xl font-bold">Schedule Walk-through for Precise Estimates</h2>
                   <button
                     onClick={() => setIsCalendlyOpen(false)}
                     className="text-gray-500 hover:text-gray-700"
