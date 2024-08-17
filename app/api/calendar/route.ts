@@ -16,7 +16,7 @@ const TIMEZONE = 'America/Chicago';
 const oauth2Client = new OAuth2Client(clientId, clientSecret);
 oauth2Client.setCredentials({ refresh_token: refreshToken });
 
-const calendar = google.calendar({ version: 'v3', auth: oauth2Client });
+const calendar = google.calendar({ version: 'v3',  auth: oauth2Client as any });
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
