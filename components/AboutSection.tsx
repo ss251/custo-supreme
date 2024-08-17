@@ -7,7 +7,7 @@ import { CheckCircle, ChevronLeft, ChevronRight, Play, Pause, Volume2, VolumeX }
 import { Button } from "@/components/ui/button";
 
 const features = [
-  "8+ years of commercial cleaning expertise",
+  "10+ years of commercial cleaning expertise",
   "Licensed and insured professionals",
   "Tailored cleaning plans for each client",
   "Eco-friendly cleaning products and methods",
