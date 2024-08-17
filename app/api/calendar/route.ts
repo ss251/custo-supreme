@@ -76,7 +76,7 @@ export async function POST(request: NextRequest) {
         dateTime: endTime.toISOString(),
         timeZone: TIMEZONE,
       },
-      attendees: [{ email: email }, {email: 'h.nelson@custosupreme.com'}],
+      attendees: [{ email: email }, {email: 'h.nelson@custosupreme.com'}, {email: 'admin@custosupreme.com'}, {email: 'c.james@custosupreme.com'}],
       reminders: {
         useDefault: true,
       },
