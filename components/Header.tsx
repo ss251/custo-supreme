@@ -216,7 +216,7 @@ export function Header() {
               exit={{ scale: 0.9, opacity: 0 }}
             >
               <div className="flex justify-between items-center mb-4">
-                <h2 className="text-2xl font-bold">Schedule Walk-throuh for Precise Estimate</h2>
+                <h2 className="text-2xl font-bold">Schedule Walk-through for Precise Estimate</h2>
                 <button
                   onClick={() => setIsCalendlyOpen(false)}
                   className="text-gray-500 hover:text-gray-700"
