@@ -42,6 +42,7 @@ export function Header() {
     { label: "Testimonials", href: "#testimonials" },
     { label: "FAQ", href: "#faq" },
     { label: "Contact", href: "#contact" },
+    { label: "Careers", href: "#careers" },
   ];
 
   const toggleDropdown = (label: string) => {

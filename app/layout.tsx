@@ -2,6 +2,7 @@ import { Inter } from 'next/font/google'
 import { cn } from '@/lib/utils'
 import './globals.css'
 import Head from 'next/head'
+import { Toaster } from 'react-hot-toast';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -60,6 +61,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       </Head>
       <body className={cn('font-sans antialiased')}>
         {children}
+        <Toaster />
       </body>
     </html>
   )

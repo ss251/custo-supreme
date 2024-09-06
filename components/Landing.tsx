@@ -9,6 +9,7 @@ import { FAQSection } from "./FAQSection";
 import { ContactSection } from "./ContactSection";
 import { Footer } from "./Footer";
 import { QuoteSection } from "./QuoteSection";
+import { CareersSection } from "./CareersSection";
 import { Chatbot } from "./Chatbot";
 
 export function Landing() {
@@ -24,7 +25,9 @@ export function Landing() {
         <InspectionsSection />
         <TestimonialsSection />
         <FAQSection />
+        
         <ContactSection />
+        <CareersSection />
       </main>
       <Footer />
       {/* <Chatbot /> */}
