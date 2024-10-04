@@ -112,7 +112,7 @@ export function AboutSection() {
           <div>
             <h2 className="text-4xl font-bold text-gray-900 mb-6">About Custo Supreme</h2>
             <p className="text-lg text-gray-600 mb-6">
-              With over 8 years of experience in the commercial cleaning industry, Custo Supreme has established itself as a leader in providing top-quality cleaning services to businesses across Chattanooga.
+              With over 10 years of experience in the commercial cleaning industry, Custo Supreme has established itself as a leader in providing top-quality cleaning services to businesses across Chattanooga, TN; Houston, TX; and Jasper/Whiteville, TX.
             </p>
             <ul className="space-y-3 mb-8">
               {features.map((feature, index) => (
@@ -149,7 +149,7 @@ export function AboutSection() {
                 &quot;Our mission is to provide unparalleled cleaning services
                 that not only meet but exceed our clients&apos; expectations.
                 We&apos;re committed to creating healthier, more productive
-                spaces for businesses across Chattanooga.&quot;
+                spaces for businesses across Chattanooga, TN, Houston, TX, and Jasper/Whiteville, TX.&quot;
               </p>
               <p className="text-gray-600">
                 Haven and Charquette Nelson, the dynamic duo behind Custo

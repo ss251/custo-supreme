@@ -181,7 +181,7 @@ export function HeroSection() {
             transition={{ delay: 0.2, duration: 0.8 }}
             style={{ textShadow: "2px 2px 4px rgba(0,0,0,0.7)" }}
           >
-            Expert Commercial Cleaning Services in Chattanooga, TN
+            Expert Commercial Cleaning Services in Chattanooga, TN; Houston, TX; and Jasper/Whiteville, TX
           </motion.h1>
           <motion.p
             className="text-xl md:text-2xl text-white font-medium"
