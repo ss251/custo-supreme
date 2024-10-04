@@ -230,7 +230,7 @@ export function HeroSection() {
               className="bg-white/10 text-white border-white hover:bg-white/20 text-lg px-8 py-3 w-full sm:w-auto font-semibold"
               onClick={() => setIsCalendlyOpen(true)}
             >
-              sC
+              Schedule Quote
             </Button>
           </motion.div>
         </div>
