@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import YouTube from "react-youtube";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
-import { Volume2, VolumeX, Play, Pause, CheckCircle, X } from "lucide-react";
+import { Volume2, VolumeX, Play, Pause, CheckCircle, X, Youtube, Facebook, Instagram } from "lucide-react";
 import { InlineWidget } from "react-calendly";
 import CustomCalendar, { BookingDetails } from "./CustomCalendar";
 import { toast } from 'react-hot-toast';
@@ -243,6 +243,17 @@ export function HeroSection() {
           exit={{ opacity: 0 }}
           transition={{ delay: 1, duration: 0.5 }}
         >
+          <div className="p-2 flex space-x-2">
+            <a href="https://youtu.be/ODoLwsSyd4o" target="_blank" rel="noopener noreferrer" className="text-secondary-foreground hover:text-primary transition-colors" aria-label="Youtube">
+              <Youtube size={24} />
+          </a>
+          <a href="https://www.facebook.com/people/CustoSupreme-Commercial-Cleaning/61550114426903/" target="_blank" rel="noopener noreferrer" className="text-secondary-foreground hover:text-primary transition-colors" aria-label="Facebook">
+            <Facebook size={24} />
+          </a>
+          <a href="https://www.instagram.com/custosupreme/" target="_blank" rel="noopener noreferrer" className="text-secondary-foreground hover:text-primary transition-colors" aria-label="Instagram">
+            <Instagram size={24} />
+          </a>
+          </div>
           <button
             onClick={toggleVideo}
             className="p-2 bg-black/50 rounded-full text-white hover:bg-black/70 transition-colors"
