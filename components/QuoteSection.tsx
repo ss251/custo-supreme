@@ -316,7 +316,7 @@ export function QuoteSection() {
                   cost.
                 </p>
                 <Button className="mt-4" onClick={() => setIsCalendlyOpen(true)}>
-                  Book walk-through
+                  Schedule Walk-through
                 </Button>
               </motion.div>
             )}

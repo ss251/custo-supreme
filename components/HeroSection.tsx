@@ -181,7 +181,7 @@ export function HeroSection() {
             transition={{ delay: 0.2, duration: 0.8 }}
             style={{ textShadow: "2px 2px 4px rgba(0,0,0,0.7)" }}
           >
-            Expert Commercial Cleaning Services in Chattanooga, TN; Houston, TX; and Jasper/Whiteville, TX
+            Expert Commercial Cleaning Services
           </motion.h1>
           <motion.p
             className="text-xl md:text-2xl text-white font-medium"
@@ -230,7 +230,7 @@ export function HeroSection() {
               className="bg-white/10 text-white border-white hover:bg-white/20 text-lg px-8 py-3 w-full sm:w-auto font-semibold"
               onClick={() => setIsCalendlyOpen(true)}
             >
-              Book Walk-Through
+              Schedule Walk-through
             </Button>
           </motion.div>
         </div>
