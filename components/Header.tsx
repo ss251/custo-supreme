@@ -9,7 +9,7 @@ import { Menu, X, ChevronDown } from 'lucide-react';
 import { InlineWidget } from "react-calendly";
 import CustomCalendar, { BookingDetails } from "./CustomCalendar";
 import { toast } from 'react-hot-toast';
-
+import axios from 'axios';
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -66,10 +66,18 @@ export function Header() {
     }, 300); // 300ms delay to allow the menu closing animation to complete
   };
 
-  const handleBookingConfirmed = (bookingDetails: BookingDetails) => {
+  const handleBookingConfirmed = async (bookingDetails: BookingDetails) => {
     console.log('Booking confirmed:', bookingDetails);
     toast.success('Appointment booked successfully!');
     // You can add additional logic here, such as updating the UI or component state
+    try {
+      const response = await axios.post('/api/createAccount', bookingDetails);
+      console.log('Account created in Zoho CRM:', response.data);
+      // You can add additional logic here if needed
+    } catch (error) {
+      console.error('Error sending data to API:', error);
+      toast.error('Failed to create account in Zoho CRM.');
+    }
   };
 
   return (
@@ -132,7 +140,7 @@ export function Header() {
               className="hidden md:block bg-primary text-white hover:bg-primary/90"
               onClick={() => setIsCalendlyOpen(true)}
             >
-              Schedule Walk-through
+              Schedule Quote
             </Button>
             <button
               className="md:hidden text-gray-500 hover:text-gray-700"
@@ -217,7 +225,7 @@ export function Header() {
               exit={{ scale: 0.9, opacity: 0 }}
             >
               <div className="flex justify-between items-center mb-4">
-                <h2 className="text-2xl font-bold">Schedule Walk-through for Precise Estimate</h2>
+                <h2 className="text-2xl font-bold">Schedule Quote for Precise Estimate</h2>
                 <button
                   onClick={() => setIsCalendlyOpen(false)}
                   className="text-gray-500 hover:text-gray-700"

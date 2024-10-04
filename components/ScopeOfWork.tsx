@@ -132,7 +132,7 @@ export function ScopeOfWork({ quoteData }: ScopeOfWorkProps) {
             {finalQuote ? (
               <Button className="w-full">Accept and Schedule Cleaning</Button>
             ) : (
-              <Button className="w-full">Schedule Walkthrough</Button>
+              <Button className="w-full">Schedule Quote</Button>
             )}
           </div>
         </div>

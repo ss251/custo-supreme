@@ -230,7 +230,7 @@ export function HeroSection() {
               className="bg-white/10 text-white border-white hover:bg-white/20 text-lg px-8 py-3 w-full sm:w-auto font-semibold"
               onClick={() => setIsCalendlyOpen(true)}
             >
-              Schedule Walk-through
+              sC
             </Button>
           </motion.div>
         </div>
@@ -276,7 +276,7 @@ export function HeroSection() {
               exit={{ scale: 0.9, opacity: 0 }}
             >
               <div className="flex justify-between items-center mb-4">
-                <h2 className="text-2xl font-bold">Schedule Walk-through for Precise Estimate</h2>
+                <h2 className="text-2xl font-bold">Schedule Quote for Precise Estimate</h2>
                 <button
                   onClick={() => setIsCalendlyOpen(false)}
                   className="text-gray-500 hover:text-gray-700"
