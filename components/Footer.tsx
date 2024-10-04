@@ -3,7 +3,7 @@ import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
+import { Facebook, Twitter, Instagram, Linkedin, Youtube } from 'lucide-react';
 
 export function Footer() {
   return (
@@ -20,17 +20,14 @@ export function Footer() {
               Chattanooga&apos;s premier commercial cleaning service, providing top-notch solutions for businesses since 2015.
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="text-secondary-foreground hover:text-primary transition-colors" aria-label="Facebook">
+              <a href="https://www.facebook.com/people/CustoSupreme-Commercial-Cleaning/61550114426903/" target="_blank" rel="noopener noreferrer" className="text-secondary-foreground hover:text-primary transition-colors" aria-label="Facebook">
                 <Facebook size={20} />
               </a>
-              <a href="#" className="text-secondary-foreground hover:text-primary transition-colors" aria-label="Twitter">
-                <Twitter size={20} />
-              </a>
-              <a href="#" className="text-secondary-foreground hover:text-primary transition-colors" aria-label="Instagram">
+              <a href="https://www.instagram.com/custosupreme/" target="_blank" rel="noopener noreferrer" className="text-secondary-foreground hover:text-primary transition-colors" aria-label="Instagram">
                 <Instagram size={20} />
               </a>
-              <a href="#" className="text-secondary-foreground hover:text-primary transition-colors" aria-label="LinkedIn">
-                <Linkedin size={20} />
+              <a href="https://youtu.be/ODoLwsSyd4o" target="_blank" rel="noopener noreferrer" className="text-secondary-foreground hover:text-primary transition-colors" aria-label="Youtube">
+                <Youtube size={20} />
               </a>
             </div>
           </div>
