@@ -1,5 +1,3 @@
-// components/CustomCalendar.tsx
-
 import React, { useState, useEffect } from "react";
 import {
   format,
@@ -12,13 +10,6 @@ import {
 } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import {
   Select,
   SelectContent,
@@ -50,6 +41,10 @@ export interface BookingDetails {
 
 interface CustomCalendarProps {
   onBookingConfirmed: (bookingDetails: BookingDetails) => void;
+}
+
+interface WorkingHours {
+  [key: number]: { start: string; end: string; isOpen: boolean };
 }
 
 const CustomCalendar: React.FC<CustomCalendarProps> = ({
@@ -92,6 +87,21 @@ const CustomCalendar: React.FC<CustomCalendarProps> = ({
     }
   }, [selectedDate]);
 
+  const fetchWorkingHours = async () => {
+    try {
+      const response = await fetch('/api/calendar/timings');
+      if (!response.ok) {
+        throw new Error('Failed to fetch working hours');
+      }
+      const data = await response.json();
+      console.log('Fetched working hours:', data);
+      setWorkingHours(data);
+    } catch (error) {
+      console.error('Error fetching working hours:', error);
+      toast.error('Failed to fetch working hours');
+    }
+  };
+
   const fetchAvailableSlots = async (date: Date) => {
     setIsLoading(true);
     try {
@@ -102,6 +112,7 @@ const CustomCalendar: React.FC<CustomCalendarProps> = ({
         throw new Error("Failed to fetch available slots");
       }
       const data = await response.json();
+      console.log("Fetched available slots:", data);
       setAvailableSlots(data.slots);
     } catch (error) {
       console.error("Error fetching available slots:", error);
@@ -205,7 +216,7 @@ const CustomCalendar: React.FC<CustomCalendarProps> = ({
 
   const isDateDisabled = (date: Date) => {
     const day = date.getDay();
-    return day === 0 || day === 3 || day === 6; // Sunday (0), Wednesday (3), Saturday (6)
+    return !workingHours[day] || !workingHours[day].isOpen;
   };
 
   return (
@@ -217,8 +228,8 @@ const CustomCalendar: React.FC<CustomCalendarProps> = ({
             selected={selectedDate}
             onSelect={handleDateSelect}
             disabled={[
-              disabledDays, // Disable dates more than 30 days in the future
-              (date) => isDateDisabled(date), // Disable specific days of the week
+              disabledDays,
+              (date) => isDateDisabled(date),
             ]}
             className="rounded-md border"
             modifiersStyles={{

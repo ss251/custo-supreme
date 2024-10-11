@@ -3,7 +3,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { google, calendar_v3 } from 'googleapis';
 import { OAuth2Client } from 'google-auth-library';
+
 import { addMinutes, parseISO, format, addHours } from 'date-fns';
+
 import { toZonedTime, fromZonedTime } from 'date-fns-tz';
 import { supabase } from '@/lib/supabase';
 
@@ -59,8 +61,8 @@ export async function GET(request: NextRequest) {
     });
 
     const busySlots = events.data.items?.map(event => ({
-      start: toZonedTime(new Date(event.start?.dateTime || event.start?.date || ''), TIMEZONE),
-      end: toZonedTime(new Date(event.end?.dateTime || event.end?.date || ''), TIMEZONE),
+      start: fromZonedTime(new Date(event.start?.dateTime || event.start?.date || ''), TIMEZONE),
+      end: fromZonedTime(new Date(event.end?.dateTime || event.end?.date || ''), TIMEZONE),
     })) || [];
 
     const availableSlots = generateAvailableSlots(date, busySlots, timings[dayOfWeek]);
@@ -116,7 +118,19 @@ export async function POST(request: NextRequest) {
 }
 
 function isRecurringEvent(event: { start: Date; end: Date }) {
-    return event.start.getHours() === 13 && event.end.getHours() === 16;
+  return event.start.getHours() === 13 && event.end.getHours() === 16;
+}
+
+function generateAvailableSlots(date: Date, busySlots: { start: Date; end: Date }[], workingHours: any) {
+  const dayOfWeek = date.getDay() + 1;
+  const dayWorkingHours = workingHours[dayOfWeek.toString()];
+
+  console.log('Day of week:', dayOfWeek);
+  console.log('Working hours for the day:', dayWorkingHours);
+
+  if (!dayWorkingHours || !dayWorkingHours.isOpen) {
+    console.log('Day is closed or no working hours found');
+    return [];
   }
 
 function generateAvailableSlots(date: Date, busySlots: { start: Date; end: Date }[], dayTiming: { start: string; end: string }) {

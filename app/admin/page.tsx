@@ -1,4 +1,5 @@
 'use client'
+
 import { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -6,15 +7,19 @@ import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from 'react-hot-toast';
+
 const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
 interface DayTiming {
   isOpen: boolean;
   start: string;
   end: string;
 }
+
 interface Timings {
   [key: number]: DayTiming;
 }
+
 export default function AdminPage() {
   const [password, setPassword] = useState('');
   const [authenticated, setAuthenticated] = useState(false);
@@ -27,9 +32,11 @@ export default function AdminPage() {
     5: { isOpen: true, start: '14:30', end: '17:00' },
     6: { isOpen: false, start: '09:00', end: '17:00' },
   });
+
   useEffect(() => {
     fetchTimings();
   }, []);
+
   const fetchTimings = async () => {
     try {
       const response = await fetch('/api/calendar/timings');
@@ -43,6 +50,7 @@ export default function AdminPage() {
       console.error('Error fetching timings:', error);
     }
   };
+
   const handleLogin = () => {
     if (password === process.env.NEXT_PUBLIC_ADMIN_PASSWORD) {
       setAuthenticated(true);
@@ -50,12 +58,14 @@ export default function AdminPage() {
       toast.error('Invalid password');
     }
   };
+
   const handleTimingChange = (day: number, field: keyof DayTiming, value: string | boolean) => {
     setTimings(prev => ({
       ...prev,
       [day]: { ...prev[day], [field]: value }
     }));
   };
+
   const handleSubmit = async () => {
     try {
       const response = await fetch('/api/calendar/timings', {
@@ -72,6 +82,7 @@ export default function AdminPage() {
       toast.error('Error updating timings');
     }
   };
+
   const handleBulkUpdate = (field: keyof DayTiming, value: string | boolean) => {
     setTimings(prev => {
       const updatedTimings = { ...prev };
@@ -81,6 +92,7 @@ export default function AdminPage() {
       return updatedTimings;
     });
   };
+
   if (!authenticated) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen max-w-md mx-auto">
@@ -96,6 +108,7 @@ export default function AdminPage() {
       </div>
     );
   }
+
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Admin: Update Available Timings</h1>
@@ -176,6 +189,7 @@ export default function AdminPage() {
     </div>
   );
 }
+
 function generateTimeOptions() {
   const options = [];
   for (let hour = 0; hour < 24; hour++) {
