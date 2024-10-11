@@ -3,8 +3,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { google, calendar_v3 } from 'googleapis';
 import { OAuth2Client } from 'google-auth-library';
-import { addMinutes, parseISO, format, addHours } from 'date-fns';
-import { toZonedTime, fromZonedTime} from 'date-fns-tz';
+import { addMinutes, parseISO, format, addHours, isBefore, isAfter } from 'date-fns';
+import { toZonedTime, fromZonedTime } from 'date-fns-tz';
+import { supabase } from '@/lib/supabase';
 
 const clientId = process.env.GOOGLE_CLIENT_ID!;
 const clientSecret = process.env.GOOGLE_CLIENT_SECRET!;
@@ -27,9 +28,19 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const date = parseISO(dateParam);
-    const startOfDay = fromZonedTime(new Date(date.setHours(0, 0, 0, 0)), TIMEZONE);
-    const endOfDay = fromZonedTime(new Date(date.setHours(23, 59, 59, 999)), TIMEZONE);
+    const date = toZonedTime(parseISO(dateParam), TIMEZONE);
+    const startOfDay = new Date(date.setHours(0, 0, 0, 0));
+    const endOfDay = new Date(date.setHours(23, 59, 59, 999));
+
+    // Fetch working hours from Supabase
+    const { data: workingHours, error: workingHoursError } = await supabase
+      .from('timings')
+      .select('*')
+      .single();
+
+    if (workingHoursError) {
+      throw workingHoursError;
+    }
 
     const events = await calendar.events.list({
       calendarId: calendarId,
@@ -40,11 +51,11 @@ export async function GET(request: NextRequest) {
     });
 
     const busySlots = events.data.items?.map(event => ({
-      start: toZonedTime(new Date(event.start?.dateTime || event.start?.date || ''), TIMEZONE),
-      end: toZonedTime(new Date(event.end?.dateTime || event.end?.date || ''), TIMEZONE),
+      start: fromZonedTime(new Date(event.start?.dateTime || event.start?.date || ''), TIMEZONE),
+      end: fromZonedTime(new Date(event.end?.dateTime || event.end?.date || ''), TIMEZONE),
     })) || [];
 
-    const availableSlots = generateAvailableSlots(date, busySlots);
+    const availableSlots = generateAvailableSlots(date, busySlots, workingHours);
 
     return NextResponse.json({ slots: availableSlots });
   } catch (error) {
@@ -97,62 +108,81 @@ export async function POST(request: NextRequest) {
 }
 
 function isRecurringEvent(event: { start: Date; end: Date }) {
-    return event.start.getHours() === 13 && event.end.getHours() === 16;
+  return event.start.getHours() === 13 && event.end.getHours() === 16;
+}
+
+function generateAvailableSlots(date: Date, busySlots: { start: Date; end: Date }[], workingHours: any) {
+  const dayOfWeek = date.getDay() + 1;
+  const dayWorkingHours = workingHours[dayOfWeek.toString()];
+
+  console.log('Day of week:', dayOfWeek);
+  console.log('Working hours for the day:', dayWorkingHours);
+
+  if (!dayWorkingHours || !dayWorkingHours.isOpen) {
+    console.log('Day is closed or no working hours found');
+    return [];
   }
 
-  function generateAvailableSlots(date: Date, busySlots: { start: Date; end: Date }[]) {
-    const dayOfWeek = date.getDay();
-    let workingHours;
-  
-    // Set working hours based on the day of the week
-    if (dayOfWeek === 1 || dayOfWeek === 2 || dayOfWeek === 4) { // Mon, Tue, Thu
-      workingHours = {
-        start: { hours: 15, minutes: 30 },
-        end: { hours: 18, minutes: 0 },
-      };
-    } else if (dayOfWeek === 5) { // Fri
-      workingHours = {
-        start: { hours: 14, minutes: 30 },
-        end: { hours: 17, minutes: 0 },
-      };
-    } else {
-      // No available slots for other days
-      return [];
-    }
-  
-    const slots = [];
-    let currentSlot = new Date(date);
-    currentSlot.setHours(workingHours.start.hours, workingHours.start.minutes, 0, 0);
-    const endTime = new Date(date);
-    endTime.setHours(workingHours.end.hours, workingHours.end.minutes, 0, 0);
-    const now = new Date();
-    const twelveHoursFromNow = addHours(now, 12);
-  
-    while (currentSlot < endTime) {
-      const slotEnd = addMinutes(currentSlot, 30);
-      
-      // Check if the slot is at least 12 hours in the future
-      if (currentSlot >= twelveHoursFromNow) {
-        const isAvailable = !busySlots.some(busy => 
-          !isRecurringEvent(busy) && (
-            (currentSlot >= busy.start && currentSlot < busy.end) ||
-            (slotEnd > busy.start && slotEnd <= busy.end) ||
-            (currentSlot <= busy.start && slotEnd >= busy.end)
-          )
-        );
-  
-        if (isAvailable) {
-          slots.push({
-            start: format(currentSlot, 'HH:mm'),
-            end: format(slotEnd, 'HH:mm'),
-          });
-        }
+  // Parse the start and end times, considering 12-hour format
+  const parseTime = (timeStr: string) => {
+    const [time, period] = timeStr.split(' ');
+    const [hours, minutes] = time.split(':').map(Number);
+    return period === 'PM' && hours !== 12 ? hours + 12 : hours;
+  };
+
+  const startHour = parseTime(dayWorkingHours.start);
+  const endHour = parseTime(dayWorkingHours.end);
+  const [, startMinute] = dayWorkingHours.start.split(':');
+  const [, endMinute] = dayWorkingHours.end.split(':');
+
+  console.log('Start time:', startHour, startMinute);
+  console.log('End time:', endHour, endMinute);
+
+  const slots = [];
+  let currentSlot = new Date(date);
+  currentSlot.setHours(startHour, parseInt(startMinute), 0, 0);
+  const endTime = new Date(date);
+  endTime.setHours(endHour, parseInt(endMinute), 0, 0);
+  const now = new Date();
+  const twelveHoursFromNow = addHours(now, 12);
+
+  console.log('Current slot:', currentSlot);
+  console.log('End time:', endTime);
+  console.log('Now:', now);
+  console.log('Twelve hours from now:', twelveHoursFromNow);
+
+  while (isBefore(currentSlot, endTime)) {
+    const slotEnd = addMinutes(currentSlot, 30);
+    
+    // Convert times to UTC for comparison
+    const currentSlotUTC = fromZonedTime(currentSlot, TIMEZONE);
+    const slotEndUTC = fromZonedTime(slotEnd, TIMEZONE);
+    const twelveHoursFromNowUTC = fromZonedTime(twelveHoursFromNow, TIMEZONE);
+
+    if (isAfter(currentSlotUTC, twelveHoursFromNowUTC)) {
+      const isAvailable = !busySlots.some(busy => 
+        !isRecurringEvent(busy) && (
+          (isAfter(currentSlotUTC, busy.start) && isBefore(currentSlotUTC, busy.end)) ||
+          (isAfter(slotEndUTC, busy.start) && isBefore(slotEndUTC, busy.end)) ||
+          (isBefore(currentSlotUTC, busy.start) && isAfter(slotEndUTC, busy.end))
+        )
+      );
+
+      console.log('Slot:', format(currentSlot, 'HH:mm'), '-', format(slotEnd, 'HH:mm'), 'Available:', isAvailable);
+
+      if (isAvailable) {
+        slots.push({
+          start: format(currentSlot, 'hh:mm a'),
+          end: format(slotEnd, 'hh:mm a'),
+        });
       }
-  
-      currentSlot = slotEnd;
     }
-  
-    return slots;
+
+    currentSlot = slotEnd;
   }
-  
-  
+
+  console.log('Generated slots:', slots);
+
+  return slots;
+}
+
