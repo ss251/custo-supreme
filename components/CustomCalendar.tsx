@@ -30,6 +30,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { toast } from "react-hot-toast";
+import { supabase } from "@/lib/supabase";
 
 interface TimeSlot {
   start: string;
@@ -65,6 +66,25 @@ const CustomCalendar: React.FC<CustomCalendarProps> = ({
     {}
   );
   const [isLoading, setIsLoading] = useState(false);
+  const [timings, setTimings] = useState<any>(null);
+
+  useEffect(() => {
+    fetchTimings();
+  }, []);
+
+  const fetchTimings = async () => {
+    const { data, error } = await supabase
+      .from('timings')
+      .select('*')
+      .eq('id', 1)
+      .single()
+
+    if (error) {
+      console.error('Error fetching timings:', error);
+    } else {
+      setTimings(data);
+    }
+  };
 
   useEffect(() => {
     if (selectedDate) {
