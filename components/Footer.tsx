@@ -17,7 +17,7 @@ export function Footer() {
               <span className="font-bold text-xl">CustoSupreme</span>
             </div>
             <p className="text-sm">
-              A premier commercial cleaning service, providing top-notch solutions for businesses in Chattanooga, TN, Houston, TX, and Jasper/Whiteville, TX since 2015.
+              A premier commercial cleaning service, providing top-notch solutions for businesses in Chattanooga, TN and Houston, TX since 2015.
             </p>
             <div className="flex space-x-4">
               <a href="https://www.facebook.com/people/CustoSupreme-Commercial-Cleaning/61550114426903/" target="_blank" rel="noopener noreferrer" className="text-secondary-foreground hover:text-primary transition-colors" aria-label="Facebook">
