@@ -3,10 +3,10 @@
 import { useState, useRef, useEffect } from "react";
 import YouTube from "react-youtube";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { motion, AnimatePresence } from "framer-motion";
 import { Volume2, VolumeX, Play, Pause, CheckCircle, X, Youtube, Facebook, Instagram } from "lucide-react";
 import { InlineWidget } from "react-calendly";
-import CustomCalendar, { BookingDetails } from "./CustomCalendar";
 import { toast } from 'react-hot-toast';
 
 export function HeroSection() {
@@ -23,6 +23,14 @@ export function HeroSection() {
   const playerRef = useRef<any>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [isCalendlyOpen, setIsCalendlyOpen] = useState(false);
+  const [showLeadForm, setShowLeadForm] = useState(false);
+  const [showCalendly, setShowCalendly] = useState(false);
+  const [leadData, setLeadData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    company: '',
+  });
 
   // Set the video source and type here
   const [videoSource, setVideoSource] = useState({
@@ -133,10 +141,33 @@ export function HeroSection() {
     }
   };
 
-  const handleBookingConfirmed = (bookingDetails: BookingDetails) => {
-    console.log('Booking confirmed:', bookingDetails);
-    toast.success('Appointment booked successfully!');
-    // You can add additional logic here, such as updating the UI or component state
+  const handleLeadSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const response = await fetch('/api/createAccount', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(leadData),
+      });
+
+      if (response.ok) {
+        setShowLeadForm(false);
+        setShowCalendly(true);
+        toast.success('Information submitted successfully!');
+      } else {
+        throw new Error('Failed to submit lead information');
+      }
+    } catch (error) {
+      console.error('Error creating lead:', error);
+      toast.error('Failed to submit lead information. Please try again.');
+    }
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setLeadData(prev => ({ ...prev, [name]: value }));
   };
 
   return (
@@ -228,7 +259,7 @@ export function HeroSection() {
               size="lg"
               variant="outline"
               className="bg-white/10 text-white border-white hover:bg-white/20 text-lg px-8 py-3 w-full sm:w-auto font-semibold"
-              onClick={() => setIsCalendlyOpen(true)}
+              onClick={() => setShowLeadForm(true)}
             >
               Schedule Quote
             </Button>
@@ -299,7 +330,99 @@ export function HeroSection() {
                 url="https://calendly.com/admin-custosupreme/30min"
                 styles={{ height: "calc(100% - 60px)" }}
               /> */}
-              <CustomCalendar onBookingConfirmed={handleBookingConfirmed} />
+              
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Lead Capture Form Modal */}
+      <AnimatePresence>
+        {showLeadForm && (
+          <motion.div
+            className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div
+              className="bg-white p-6 rounded-lg w-full max-w-[400px] m-4"
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+            >
+              <h2 className="text-2xl font-bold mb-4">Schedule a Quote</h2>
+              <form onSubmit={handleLeadSubmit} className="space-y-4">
+                <Input
+                  type="text"
+                  name="name"
+                  placeholder="Full Name"
+                  value={leadData.name}
+                  onChange={handleInputChange}
+                  required
+                />
+                <Input
+                  type="email"
+                  name="email"
+                  placeholder="Email"
+                  value={leadData.email}
+                  onChange={handleInputChange}
+                  required
+                />
+                <Input
+                  type="tel"
+                  name="phone"
+                  placeholder="Phone"
+                  value={leadData.phone}
+                  onChange={handleInputChange}
+                  required
+                />
+                <Input
+                  type="text"
+                  name="company"
+                  placeholder="Company Name"
+                  value={leadData.company}
+                  onChange={handleInputChange}
+                  required
+                />
+                <Button type="submit" className="w-full">Submit</Button>
+              </form>
+              <button
+                onClick={() => setShowLeadForm(false)}
+                className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+              >
+                <X size={24} />
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Calendly Inline Widget Modal */}
+      <AnimatePresence>
+        {showCalendly && (
+          <motion.div
+            className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div
+              className="bg-white p-4 rounded-lg w-full max-w-[800px] h-[600px] m-4"
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+            >
+              <InlineWidget
+                url="https://calendly.com/h-nelson-custosupreme/available-walk-through-times"
+                styles={{ height: '100%' }}
+              />
+              <button
+                onClick={() => setShowCalendly(false)}
+                className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+              >
+                <X size={24} />
+              </button>
             </motion.div>
           </motion.div>
         )}

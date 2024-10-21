@@ -1,20 +1,19 @@
 // lib/tokenManager.ts
 
-let accessToken: string | null = null;
-let refreshToken: string | null = null;
+import { kv } from '@vercel/kv';
 
-export function getAccessToken() {
-  return accessToken;
+export async function getAccessToken() {
+  return await kv.get('zoho_access_token');
 }
 
-export function setAccessToken(token: string) {
-  accessToken = token;
+export async function setAccessToken(token: string) {
+  await kv.set('zoho_access_token', token, { ex: 3600 }); // Set expiration to 1 hour
 }
 
-export function getRefreshToken() {
-  return refreshToken;
+export async function getRefreshToken() {
+  return await kv.get('zoho_refresh_token');
 }
 
-export function setRefreshToken(token: string) {
-  refreshToken = token;
+export async function setRefreshToken(token: string) {
+  await kv.set('zoho_refresh_token', token);
 }

@@ -33,9 +33,9 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: data.error }, { status: 400 });
   }
 
-  // Store tokens in memory
-  setAccessToken(data.access_token);
-  setRefreshToken(data.refresh_token);
+  // Store tokens using the new methods
+  await setAccessToken(data.access_token);
+  await setRefreshToken(data.refresh_token);
 
   return NextResponse.json({ message: 'Tokens obtained successfully' });
 }

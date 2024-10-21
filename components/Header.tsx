@@ -7,14 +7,21 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from "@/components/ui/button";
 import { Menu, X, ChevronDown } from 'lucide-react';
 import { InlineWidget } from "react-calendly";
-import CustomCalendar, { BookingDetails } from "./CustomCalendar";
 import { toast } from 'react-hot-toast';
-import axios from 'axios';
+import { Input } from "@/components/ui/input";
+
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
-  const [isCalendlyOpen, setIsCalendlyOpen] = useState(false);
+  const [showLeadForm, setShowLeadForm] = useState(false);
+  const [showCalendly, setShowCalendly] = useState(false);
+  const [leadData, setLeadData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    company: '',
+  });
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 10);
@@ -29,15 +36,7 @@ export function Header() {
   };
   
   const navItems: NavItem[] = [
-    { 
-      label: "Services", 
-      href: "#services", 
-      // subItems: [
-      //   { label: "Residential", href: "#residential" },
-      //   { label: "Commercial", href: "#commercial" },
-      //   { label: "Windows", href: "#windows" },
-      // ]
-    },
+    { label: "Services", href: "#services" },
     { label: "About", href: "#about" },
     { label: "Testimonials", href: "#testimonials" },
     { label: "FAQ", href: "#faq" },
@@ -66,18 +65,33 @@ export function Header() {
     }, 300); // 300ms delay to allow the menu closing animation to complete
   };
 
-  const handleBookingConfirmed = async (bookingDetails: BookingDetails) => {
-    console.log('Booking confirmed:', bookingDetails);
-    toast.success('Appointment booked successfully!');
-    // You can add additional logic here, such as updating the UI or component state
+  const handleLeadSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     try {
-      const response = await axios.post('/api/createAccount', bookingDetails);
-      console.log('Account created in Zoho CRM:', response.data);
-      // You can add additional logic here if needed
+      const response = await fetch('/api/createAccount', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(leadData),
+      });
+
+      if (response.ok) {
+        setShowLeadForm(false);
+        setShowCalendly(true);
+        toast.success('Information submitted successfully!');
+      } else {
+        throw new Error('Failed to submit lead information');
+      }
     } catch (error) {
-      console.error('Error sending data to API:', error);
-      toast.error('Failed to create account in Zoho CRM.');
+      console.error('Error creating lead:', error);
+      toast.error('Failed to submit information. Please try again.');
     }
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setLeadData(prev => ({ ...prev, [name]: value }));
   };
 
   return (
@@ -138,7 +152,7 @@ export function Header() {
             </nav>
             <Button 
               className="hidden md:block bg-primary text-white hover:bg-primary/90"
-              onClick={() => setIsCalendlyOpen(true)}
+              onClick={() => setShowLeadForm(true)}
             >
               Schedule Quote
             </Button>
@@ -197,7 +211,7 @@ export function Header() {
                 <Button 
                   className="w-full mt-4 bg-primary text-white hover:bg-primary/90"
                   onClick={() => {
-                    setIsCalendlyOpen(true);
+                    setShowLeadForm(true);
                     setIsMenuOpen(false);
                   }}
                 >
@@ -209,9 +223,9 @@ export function Header() {
         </AnimatePresence>
       </motion.header>
 
-      {/* Calendly Modal */}
+      {/* Lead Capture Form Modal */}
       <AnimatePresence>
-        {isCalendlyOpen && (
+        {showLeadForm && (
           <motion.div
             className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
             initial={{ opacity: 0 }}
@@ -219,25 +233,83 @@ export function Header() {
             exit={{ opacity: 0 }}
           >
             <motion.div
-              className="bg-white p-4 rounded-lg w-full max-w-[310px] m-4"
+              className="bg-white p-6 rounded-lg w-full max-w-[400px] m-4"
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
             >
-              <div className="flex justify-between items-center mb-4">
-                <h2 className="text-2xl font-bold">Schedule Quote for Precise Estimate</h2>
-                <button
-                  onClick={() => setIsCalendlyOpen(false)}
-                  className="text-gray-500 hover:text-gray-700"
-                >
-                  <X size={24} />
-                </button>
-              </div>
-              {/* <InlineWidget 
-                url="https://calendly.com/admin-custosupreme/30min" 
-                styles={{ height: 'calc(100% - 60px)' }}
-              /> */}
-              <CustomCalendar onBookingConfirmed={handleBookingConfirmed} />
+              <h2 className="text-2xl font-bold mb-4">Schedule a Quote</h2>
+              <form onSubmit={handleLeadSubmit} className="space-y-4">
+                <Input
+                  type="text"
+                  name="name"
+                  placeholder="Full Name"
+                  value={leadData.name}
+                  onChange={handleInputChange}
+                  required
+                />
+                <Input
+                  type="email"
+                  name="email"
+                  placeholder="Email"
+                  value={leadData.email}
+                  onChange={handleInputChange}
+                  required
+                />
+                <Input
+                  type="tel"
+                  name="phone"
+                  placeholder="Phone"
+                  value={leadData.phone}
+                  onChange={handleInputChange}
+                  required
+                />
+                <Input
+                  type="text"
+                  name="company"
+                  placeholder="Company Name"
+                  value={leadData.company}
+                  onChange={handleInputChange}
+                  required
+                />
+                <Button type="submit" className="w-full">Submit</Button>
+              </form>
+              <button
+                onClick={() => setShowLeadForm(false)}
+                className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
+              >
+                <X size={24} />
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Calendly Inline Widget Modal */}
+      <AnimatePresence>
+        {showCalendly && (
+          <motion.div
+            className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div
+              className="bg-white p-4 rounded-lg w-full max-w-[800px] h-[600px] m-4"
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+            >
+              <InlineWidget
+                url="https://calendly.com/h-nelson-custosupreme/available-walk-through-times"
+                styles={{ height: '100%' }}
+              />
+              <button
+                onClick={() => setShowCalendly(false)}
+                className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+              >
+                <X size={24} />
+              </button>
             </motion.div>
           </motion.div>
         )}

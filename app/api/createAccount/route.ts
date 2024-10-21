@@ -1,7 +1,7 @@
 // app/api/createAccount/route.ts
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getAccessToken, setAccessToken, getRefreshToken } from '@/lib/tokenManager';
+import { kv } from '@vercel/kv';
 
 const clientId = process.env.ZOHO_CLIENT_ID!;
 const clientSecret = process.env.ZOHO_CLIENT_SECRET!;
@@ -9,7 +9,7 @@ const clientSecret = process.env.ZOHO_CLIENT_SECRET!;
 export async function POST(request: NextRequest) {
   const bookingDetails = await request.json();
 
-  let accessToken = getAccessToken();
+  let accessToken = await kv.get('zoho_access_token');
 
   if (!accessToken) {
     accessToken = await refreshAccessToken();
@@ -21,13 +21,15 @@ export async function POST(request: NextRequest) {
   const leadData = {
     data: [
       {
-        Company: bookingDetails.companyName,
-        Last_Name: bookingDetails.name || 'Unknown',
+        Company: bookingDetails.company,
+        First_Name: bookingDetails.name.split(' ')[0] || 'Unknown',
+        Last_Name: bookingDetails.name.split(' ')[1] || 'Unknown',
         Email: bookingDetails.email,
-        Phone: bookingDetails.phoneNumber,
+        Phone: bookingDetails.phone,
         Description: bookingDetails.additionalInfo || '',
         Address: bookingDetails.companyAddress || '',
         Additional_Info: bookingDetails.additionalInfo || '',
+        Lead_Source: 'Website',
       },
     ],
   };
@@ -73,7 +75,7 @@ export async function POST(request: NextRequest) {
 }
 
 async function refreshAccessToken(): Promise<string | null> {
-  const refreshToken = getRefreshToken();
+  const refreshToken = await kv.get('zoho_refresh_token');
 
   if (!refreshToken) {
     console.error('Refresh token not available');
@@ -84,7 +86,7 @@ async function refreshAccessToken(): Promise<string | null> {
     grant_type: 'refresh_token',
     client_id: clientId,
     client_secret: clientSecret,
-    refresh_token: refreshToken,
+    refresh_token: refreshToken as string,
   });
 
   const response = await fetch('https://accounts.zoho.com/oauth/v2/token', {
@@ -99,8 +101,8 @@ async function refreshAccessToken(): Promise<string | null> {
     return null;
   }
 
-  // Update the access token in memory
-  setAccessToken(data.access_token);
+  // Update the access token in Vercel KV
+  await kv.set('zoho_access_token', data.access_token, { ex: 3600 }); // Set expiration to 1 hour
 
   return data.access_token;
 }
