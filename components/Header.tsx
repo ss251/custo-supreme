@@ -307,7 +307,7 @@ export function Header() {
                 <X size={24} />
               </button>
               <InlineWidget
-                url="https://calendly.com/h-nelson-custosupreme/available-walk-through-times"
+                url="https://calendly.com/h-nelson-custosupreme/30min"
                 styles={{ height: '100%' }}
               />
             </motion.div>
