@@ -63,6 +63,10 @@ export function QuoteSection() {
     email: '',
     phone: '',
     company: '',
+    street: '',
+    city: '',
+    state: '',
+    zipCode: '',
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -404,6 +408,38 @@ export function QuoteSection() {
                     name="company"
                     placeholder="Company Name"
                     value={leadData.company}
+                    onChange={handleLeadInputChange}
+                    required
+                  />
+                  <Input
+                    type="text"
+                    name="street"
+                    placeholder="Street Address"
+                    value={leadData.street}
+                    onChange={handleLeadInputChange}
+                    required
+                  />
+                  <Input
+                    type="text"
+                    name="city"
+                    placeholder="City"
+                    value={leadData.city}
+                    onChange={handleLeadInputChange}
+                    required
+                  />
+                  <Input
+                    type="text"
+                    name="state"
+                    placeholder="State"
+                    value={leadData.state}
+                    onChange={handleLeadInputChange}
+                    required
+                  />
+                  <Input
+                    type="text"
+                    name="zipCode"
+                    placeholder="Zip Code"
+                    value={leadData.zipCode}
                     onChange={handleLeadInputChange}
                     required
                   />

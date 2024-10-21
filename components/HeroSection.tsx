@@ -30,6 +30,10 @@ export function HeroSection() {
     email: '',
     phone: '',
     company: '',
+    street: '',
+    city: '',
+    state: '',
+    zipCode: '',
   });
 
   // Set the video source and type here
@@ -388,6 +392,38 @@ export function HeroSection() {
                   name="company"
                   placeholder="Company Name"
                   value={leadData.company}
+                  onChange={handleInputChange}
+                  required
+                />
+                <Input
+                  type="text"
+                  name="street"
+                  placeholder="Street Address"
+                  value={leadData.street}
+                  onChange={handleInputChange}
+                  required
+                />
+                <Input
+                  type="text"
+                  name="city"
+                  placeholder="City"
+                  value={leadData.city}
+                  onChange={handleInputChange}
+                  required
+                />
+                <Input
+                  type="text"
+                  name="state"
+                  placeholder="State"
+                  value={leadData.state}
+                  onChange={handleInputChange}
+                  required
+                />
+                <Input
+                  type="text"
+                  name="zipCode"
+                  placeholder="Zip Code"
+                  value={leadData.zipCode}
                   onChange={handleInputChange}
                   required
                 />
