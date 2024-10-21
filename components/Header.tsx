@@ -233,11 +233,17 @@ export function Header() {
             exit={{ opacity: 0 }}
           >
             <motion.div
-              className="bg-white p-6 rounded-lg w-full max-w-[400px] m-4"
+              className="bg-white p-6 rounded-lg w-full max-w-[400px] m-4 relative"
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
             >
+              <button
+                onClick={() => setShowLeadForm(false)}
+                className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
+              >
+                <X size={24} />
+              </button>
               <h2 className="text-2xl font-bold mb-4">Schedule a Quote</h2>
               <form onSubmit={handleLeadSubmit} className="space-y-4">
                 <Input
@@ -274,12 +280,6 @@ export function Header() {
                 />
                 <Button type="submit" className="w-full">Submit</Button>
               </form>
-              <button
-                onClick={() => setShowLeadForm(false)}
-                className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
-              >
-                <X size={24} />
-              </button>
             </motion.div>
           </motion.div>
         )}
@@ -295,21 +295,21 @@ export function Header() {
             exit={{ opacity: 0 }}
           >
             <motion.div
-              className="bg-white p-4 rounded-lg w-full max-w-[800px] h-[600px] m-4"
+              className="bg-white p-4 rounded-lg w-full max-w-[800px] h-[600px] m-4 relative"
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
             >
+              <button
+                onClick={() => setShowCalendly(false)}
+                className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 z-10"
+              >
+                <X size={24} />
+              </button>
               <InlineWidget
                 url="https://calendly.com/h-nelson-custosupreme/available-walk-through-times"
                 styles={{ height: '100%' }}
               />
-              <button
-                onClick={() => setShowCalendly(false)}
-                className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
-              >
-                <X size={24} />
-              </button>
             </motion.div>
           </motion.div>
         )}
