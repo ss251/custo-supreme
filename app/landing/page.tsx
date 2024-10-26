@@ -42,10 +42,22 @@ export default function LandingPage() {
         </div>
 
         {/* Main Content Section */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <div className="grid md:grid-cols-2 gap-8 items-center">
+        <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 relative h-[calc(100vh-120px)]">
+          {/* Mobile Background Image */}
+          <div className="absolute inset-0 md:hidden">
+            <Image
+              src="/janitor_image.png"
+              alt="Cleaning professional background"
+              fill
+              className="object-contain object-bottom z-0"
+              priority
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#001428] via-[#001428]/80 to-transparent z-10" />
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8 items-center relative h-full">
             {/* Text Content */}
-            <div className="z-20 text-center md:text-left pt-8 md:pt-16">
+            <div className="z-20 text-center pt-8 md:pt-16 md:text-left">
               <div className="space-y-2 mb-12">
                 <h2 className="text-[#5cddff] text-5xl sm:text-6xl md:text-7xl font-benzin leading-none tracking-wide">
                   &quot;Raising
@@ -68,27 +80,22 @@ export default function LandingPage() {
                 </Link>
               </div>
 
-              <div className="relative z-20">
-                <div className="absolute inset-0 bg-gradient-to-t from-[#001428] to-transparent md:hidden" />
-                <p className="text-white text-xl md:text-2xl font-benzin tracking-wider relative z-30">
-                  Book a quote now and receive 10% off<br className="hidden md:inline" />
-                  your first month&apos;s service
-                </p>
-              </div>
+              <p className="text-white text-xl md:text-2xl font-benzin tracking-wider relative">
+                Book a quote now and receive 10% off<br className="hidden md:inline" />
+                your first month&apos;s service
+              </p>
             </div>
 
-            {/* Image Container */}
-            <div className="relative md:absolute md:right-0 md:bottom-0 md:w-[45%] h-[400px] md:h-[90%] mt-8 md:mt-0">
-              <div className="absolute inset-0 md:relative w-full h-full">
-                <Image
-                  src="/janitor_image.png"
-                  alt="Cleaning professional"
-                  fill
-                  className="object-contain md:object-right-bottom"
-                  sizes="(max-width: 768px) 100vw, 45vw"
-                  priority
-                />
-              </div>
+            {/* Desktop Image Container */}
+            <div className="hidden md:block absolute -right-1/3 bottom-0 w-[650px] h-[850px]">
+              <Image
+                src="/janitor_image.png"
+                alt="Cleaning professional"
+                fill
+                className="object-contain object-right-bottom"
+                sizes="650px"
+                priority
+              />
             </div>
           </div>
         </div>
