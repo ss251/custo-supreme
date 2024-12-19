@@ -61,24 +61,24 @@ export default function LandingPage() {
   };
 
   return (
-    <div className={`min-h-screen bg-gradient-to-br from-[#001428] to-[#002952] relative overflow-hidden ${benzin.variable}`}>
-      {/* Background Pattern */}
-      <div 
-        className="absolute inset-0 z-0"
-        style={{
-          backgroundImage: `
-            linear-gradient(45deg, rgba(0,40,80,0.3) 1px, transparent 1px),
-            linear-gradient(-45deg, rgba(0,40,80,0.3) 1px, transparent 1px)
-          `,
-          backgroundSize: '50px 50px'
-        }}
+    <div className={`min-h-screen relative overflow-hidden ${benzin.variable}`}>
+      {/* New Background Image */}
+      <Image
+        src="/landing/landing_bg.png"
+        alt="Background"
+        fill
+        className="object-cover"
+        priority
       />
+      
+      {/* Overlay for better text readability */}
+      <div className="absolute inset-0 bg-black/30" />
 
       {/* Main Content Container */}
       <div className="relative z-10 min-h-screen">
-        {/* Logo Section */}
-        <div className="text-center pt-8">
-          <div className="mx-auto mb-2 w-24 h-12">
+        {/* Logo Section - adjusted padding */}
+        <div className="text-center pt-12">
+          <div className="mx-auto w-24 -mb-2.5 h-12">
             <Image
               src="/logo.png"
               alt="CustoSupreme Logo"
