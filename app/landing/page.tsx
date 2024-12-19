@@ -97,7 +97,7 @@ export default function LandingPage() {
           {/* Mobile Background Image */}
           <div className="absolute inset-0 md:hidden">
             <Image
-              src="/janitor_image.png"
+              src="/landing/cleaner-landing-1.png"
               alt="Cleaning professional background"
               fill
               className="object-contain object-bottom z-0"
@@ -140,7 +140,7 @@ export default function LandingPage() {
             {/* Desktop Image Container */}
             <div className="hidden md:block absolute -right-1/3 bottom-0 w-[650px] h-[850px]">
               <Image
-                src="/janitor_image.png"
+                src="/landing/cleaner-landing-1.png"
                 alt="Cleaning professional"
                 fill
                 className="object-contain object-right-bottom"
