@@ -100,38 +100,44 @@ export default function LandingPage() {
               src="/landing/cleaner-landing-1.png"
               alt="Cleaning professional background"
               fill
-              className="object-contain object-center scale-125 -translate-y-10 z-0"
+              className="object-contain object-center scale-150 -translate-y-5 z-0"
               priority
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#001428] via-[#001428]/80 to-transparent z-10" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#001428] via-[#001428]/70 to-transparent z-10" />
           </div>
 
           <div className="grid md:grid-cols-1 gap-8 items-center relative h-full">
             {/* Text Content - centered for all screens */}
-            <div className="z-20 text-center pt-8 md:pt-16">
-              <div className="space-y-2 mb-12">
-                <h2 className="text-[#5cddff] text-5xl sm:text-6xl md:text-7xl font-benzin leading-none tracking-wide">
+            <div className="z-20 text-center pt-8 md:pt-24">
+              <div className="space-y-4 mb-12">
+                <h2 className="text-[#7eeeff] text-6xl sm:text-7xl md:text-8xl font-benzin leading-none tracking-wider
+                  [text-shadow:_0_0_10px_rgb(126_238_255_/_90%),_0_0_20px_rgb(126_238_255_/_70%),_0_0_30px_rgb(126_238_255_/_50%)]">
                   &quot;Raising
                 </h2>
-                <div className="text-white text-5xl sm:text-6xl md:text-7xl font-benzin leading-none tracking-wide">
+                <div className="text-[#ffffff] text-6xl sm:text-7xl md:text-8xl font-benzin leading-none tracking-wider
+                  [text-shadow:_0_0_10px_rgb(255_255_255_/_30%)]">
                   the Standard 
                 </div>
-                <div className="text-5xl sm:text-6xl md:text-7xl font-benzin leading-none tracking-wide">
-                  <span className="text-white">of</span><span className="text-[#5cddff]"> Clean&quot;</span>
+                <div className="text-6xl sm:text-7xl md:text-8xl font-benzin leading-none tracking-wider">
+                  <span className="text-[#ffffff] [text-shadow:_0_0_10px_rgb(255_255_255_/_30%)]">of </span>
+                  <span className="text-[#7eeeff] [text-shadow:_0_0_10px_rgb(126_238_255_/_90%),_0_0_20px_rgb(126_238_255_/_70%),_0_0_30px_rgb(126_238_255_/_50%)]">
+                    Clean&quot;
+                  </span>
                 </div>
               </div>
 
-              <div className="mb-8">
+              <div className="mb-12">
                 <button 
                   onClick={() => setShowLeadForm(true)}
-                  className="inline-block bg-[#0077cc] text-white px-8 md:px-16 py-3 md:py-4 rounded-lg text-xl md:text-2xl 
-                  font-benzin tracking-wide transition-all duration-300 w-full sm:w-auto text-center hover:bg-[#0066bb]"
+                  className="inline-block bg-[#0077cc] text-white px-8 md:px-16 py-4 md:py-5 rounded-lg text-2xl md:text-3xl 
+                  font-benzin tracking-wide transition-all duration-300 w-full sm:w-auto text-center hover:bg-[#0066bb] 
+                  hover:scale-105 transform"
                 >
                   Schedule a FREE Quote
                 </button>
               </div>
 
-              <p className="text-white text-xl md:text-2xl font-benzin tracking-wider">
+              <p className="text-white text-xl md:text-2xl font-benzin tracking-wider relative">
                 Book a quote now and receive 10% off<br className="hidden md:inline" />
                 your first month&apos;s service
               </p>
@@ -143,11 +149,11 @@ export default function LandingPage() {
                 src="/landing/cleaner-landing-1.png"
                 alt="Cleaning professional"
                 fill
-                className="object-contain object-bottom scale-150 -translate-y-20"
+                className="object-contain object-bottom scale-[1.75] -translate-y-20"
                 sizes="100vw"
                 priority
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#001428] via-[#001428]/80 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#001428] via-[#001428]/60 to-transparent" />
             </div>
           </div>
         </div>
