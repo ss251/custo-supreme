@@ -117,7 +117,7 @@ export default function LandingPage() {
                   the Standard 
                 </div>
                 <div className="text-5xl sm:text-6xl md:text-7xl font-benzin leading-none tracking-wide">
-                  <span className="text-[#5cddff]">of Clean&quot;</span>
+                  <span className="text-white">of</span><span className="text-[#5cddff]"> Clean&quot;</span>
                 </div>
               </div>
 
