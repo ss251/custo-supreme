@@ -138,7 +138,7 @@ export default function LandingPage() {
               </div>
 
               <p className="text-white text-xl md:text-2xl font-benzin tracking-wider relative">
-                Book a quote now and receive 10% off<br className="hidden md:inline" />
+                Book a quote now and receive 10% off <br className="hidden md:inline" />
                 your first month&apos;s service
               </p>
             </div>
