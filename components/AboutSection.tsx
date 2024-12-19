@@ -128,40 +128,29 @@ export function AboutSection() {
                 </motion.li>
               ))}
             </ul>
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <div className="flex items-center mb-4">
-                {!founderImageLoaded && <FounderImageSkeleton />}
-                <Image
-                  src="/haven-charquette.jpg"
-                  alt="Haven Nelson and Charquette Nelson - CEO and Founder"
-                  width={80}
-                  height={80}
-                  className={`rounded-full mr-4 ${founderImageLoaded ? '' : 'hidden'}`}
-                  onLoad={() => setFounderImageLoaded(true)}
-                  onError={() => setFounderImageLoaded(true)} // Show image even if it fails to load
-                />
-                <div>
-                  <h3 className="text-xl font-semibold">Haven and Charquette Nelson</h3>
-                  <p className="text-gray-600">CEO & Founder</p>
+            <div className="relative overflow-hidden rounded-lg shadow-md md:h-[250px] h-auto mt-20">
+              <div className="grid grid-cols-1 md:grid-cols-2">
+                {/* Left side - Image */}
+                <div className="relative h-[200px] md:h-[250px]">
+                  <Image
+                    src="/about/1.jpg"
+                    alt="Background"
+                    fill
+                    className="object-cover"
+                    priority
+                  />
+                </div>
+                
+                {/* Right side - Text */}
+                <div className="bg-white py-6 px-4 md:p-6">
+                  <p className="text-gray-600 italic text-sm md:text-base">
+                    &quot;Our mission is to provide unparalleled cleaning services
+                    that not only meet but exceed our clients&apos; expectations.
+                    We&apos;re committed to creating healthier, more productive
+                    spaces for businesses across Chattanooga, TN and Houston, TX.&quot;
+                  </p>
                 </div>
               </div>
-              <p className="text-gray-600 italic mb-4">
-                &quot;Our mission is to provide unparalleled cleaning services
-                that not only meet but exceed our clients&apos; expectations.
-                We&apos;re committed to creating healthier, more productive
-                spaces for businesses across Chattanooga, TN and Houston, TX.
-              </p>
-              <p className="text-gray-600">
-                Haven and Charquette Nelson, the dynamic duo behind Custo
-                Supreme, bring a perfect blend of vision and execution to the
-                company. As CEO and Founder respectively, they share a passion
-                for revolutionizing the cleaning industry through innovative
-                solutions and unparalleled customer service. Their combined
-                expertise in business management and industry knowledge drives
-                Custo Supreme&apos;s commitment to excellence, ensuring that every
-                client receives nothing short of the best in professional
-                cleaning services.
-              </p>
             </div>
           </div>
           <div>
@@ -196,7 +185,7 @@ export function AboutSection() {
               </div>
             </div>
             <div className="relative mt-8">
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">Our Cleaning Transformations</h3>
+              <h3 className="text-2xl font-bold text-white mb-4">Our Cleaning Transformations</h3>
               <AnimatePresence mode="wait">
                 <motion.div
                   key={currentImageIndex}
