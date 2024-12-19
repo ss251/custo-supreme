@@ -100,7 +100,7 @@ export default function LandingPage() {
               src="/landing/cleaner-landing-1.png"
               alt="Cleaning professional background"
               fill
-              className="object-contain object-center scale-150 -translate-y-5 z-0"
+              className="object-contain object-center scale-150 z-0"
               priority
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#001428] via-[#001428]/70 to-transparent z-10" />
