@@ -100,15 +100,15 @@ export default function LandingPage() {
               src="/landing/cleaner-landing-1.png"
               alt="Cleaning professional background"
               fill
-              className="object-contain object-bottom z-0"
+              className="object-contain object-center scale-125 -translate-y-10 z-0"
               priority
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#001428] via-[#001428]/80 to-transparent z-10" />
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8 items-center relative h-full">
-            {/* Text Content */}
-            <div className="z-20 text-center pt-8 md:pt-16 md:text-left">
+          <div className="grid md:grid-cols-1 gap-8 items-center relative h-full">
+            {/* Text Content - centered for all screens */}
+            <div className="z-20 text-center pt-8 md:pt-16">
               <div className="space-y-2 mb-12">
                 <h2 className="text-[#5cddff] text-5xl sm:text-6xl md:text-7xl font-benzin leading-none tracking-wide">
                   &quot;Raising
@@ -131,22 +131,23 @@ export default function LandingPage() {
                 </button>
               </div>
 
-              <p className="text-white text-xl md:text-2xl font-benzin tracking-wider relative">
+              <p className="text-white text-xl md:text-2xl font-benzin tracking-wider">
                 Book a quote now and receive 10% off<br className="hidden md:inline" />
                 your first month&apos;s service
               </p>
             </div>
 
-            {/* Desktop Image Container */}
-            <div className="hidden md:block absolute -right-1/3 bottom-0 w-[650px] h-[850px]">
+            {/* Desktop Image Container - adjusted positioning */}
+            <div className="hidden md:block absolute right-0 bottom-0 w-full h-[1000px]">
               <Image
                 src="/landing/cleaner-landing-1.png"
                 alt="Cleaning professional"
                 fill
-                className="object-contain object-right-bottom"
-                sizes="650px"
+                className="object-contain object-bottom scale-150 -translate-y-20"
+                sizes="100vw"
                 priority
               />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#001428] via-[#001428]/80 to-transparent" />
             </div>
           </div>
         </div>
