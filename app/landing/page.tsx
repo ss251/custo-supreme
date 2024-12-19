@@ -100,7 +100,7 @@ export default function LandingPage() {
               src="/landing/cleaner-landing-1.png"
               alt="Cleaning professional background"
               fill
-              className="object-contain object-center scale-150 z-0"
+              className="object-contain object-center scale-150 translate-y-20 z-0"
               priority
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#001428] via-[#001428]/70 to-transparent z-10" />
@@ -110,15 +110,15 @@ export default function LandingPage() {
             {/* Text Content - centered for all screens */}
             <div className="z-20 text-center pt-8 md:pt-24">
               <div className="space-y-4 mb-12">
-                <h2 className="text-[#7eeeff] text-6xl sm:text-7xl md:text-8xl font-benzin leading-none tracking-wider
+                <h2 className="text-[#7eeeff] text-5xl sm:text-6xl md:text-8xl font-benzin leading-none tracking-wider
                   [text-shadow:_0_0_10px_rgb(126_238_255_/_90%),_0_0_20px_rgb(126_238_255_/_70%),_0_0_30px_rgb(126_238_255_/_50%)]">
                   &quot;Raising
                 </h2>
-                <div className="text-[#ffffff] text-6xl sm:text-7xl md:text-8xl font-benzin leading-none tracking-wider
+                <div className="text-[#ffffff] text-5xl sm:text-6xl md:text-8xl font-benzin leading-none tracking-wider
                   [text-shadow:_0_0_10px_rgb(255_255_255_/_30%)]">
                   the Standard 
                 </div>
-                <div className="text-6xl sm:text-7xl md:text-8xl font-benzin leading-none tracking-wider">
+                <div className="text-5xl sm:text-6xl md:text-8xl font-benzin leading-none tracking-wider">
                   <span className="text-[#ffffff] [text-shadow:_0_0_10px_rgb(255_255_255_/_30%)]">of </span>
                   <span className="text-[#7eeeff] [text-shadow:_0_0_10px_rgb(126_238_255_/_90%),_0_0_20px_rgb(126_238_255_/_70%),_0_0_30px_rgb(126_238_255_/_50%)]">
                     Clean&quot;
